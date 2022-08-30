@@ -1,31 +1,6 @@
-const Joi = require("joi");
-const mongoose = require("mongoose");
+const { Genre, Validator } = require("../models/genre");
 const express = require("express");
 const router = express.Router();
-
-// const genres = [
-//   { id: 1, name: "Action" },
-//   { id: 2, name: "Horror" },
-//   { id: 3, name: "Romance" },
-// ];
-
-// define genre schema
-const genreSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-    minlength: 3,
-    maxlength: 20,
-  },
-});
-
-// create genre model
-const Genre = mongoose.model("Genre", genreSchema);
-
-// joi validator schema
-const genreValidatorSchema = Joi.object({
-  name: Joi.string().min(3).required(),
-});
 
 router.get("/", async (req, res) => {
   // new: find ALL genres
@@ -37,6 +12,7 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
   // 1. look up genre with certain id from array
   // const genre = genres.find((genre) => genre.id === parseInt(req.params.id));
+
   // new: find genre by a certain id
   const genre = await Genre.findById(req.params.id);
 
@@ -51,7 +27,7 @@ router.get("/:id", async (req, res) => {
 
 router.post("/", async (req, res) => {
   // 1. validate request
-  const result = genreValidatorSchema.validate(req.body);
+  const result = Validator.validate(req.body);
 
   // 2. if request is invalid, return 400 error
   if (result.error) {
@@ -73,7 +49,7 @@ router.post("/", async (req, res) => {
 
 router.put("/:id", async (req, res) => {
   // 3. validate request
-  const { error } = genreValidatorSchema.validate(req.body);
+  const { error } = Validator.validate(req.body);
   // if request is invalid, return 400 error
   if (error) {
     res.status(400).send(error.details[0].message);

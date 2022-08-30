@@ -4,6 +4,7 @@ const customers = require("./routes/customers");
 const express = require("express");
 const app = express();
 
+// 1. connect to mongodb
 mongoose
   .connect("mongodb://localhost/movie_renter")
   .then(() => console.log(`Connected to MongoDB`))

@@ -1,37 +1,6 @@
-const Joi = require("joi");
-const mongoose = require("mongoose");
+const { Customer, Validator } = require("../models/customer");
 const express = require("express");
 const router = express.Router();
-
-// define customer schema
-const customerSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-    minlength: 3,
-    maxlength: 30,
-  },
-  isGold: {
-    type: Boolean,
-    default: false,
-  },
-  phone: {
-    type: Number,
-    required: true,
-    // better way to handle this
-    minlength: 10,
-  },
-});
-
-// create customer model
-const Customer = mongoose.model("Customer", customerSchema);
-
-// joi validator schema
-const customerValidatorSchema = Joi.object({
-  name: Joi.string().min(3).max(30).required(),
-  isGold: Joi.boolean(),
-  phone: Joi.number().min(10).required(),
-});
 
 router.get("/", async (req, res) => {
   // new: find ALL customers
@@ -41,7 +10,7 @@ router.get("/", async (req, res) => {
 });
 
 router.get("/:id", async (req, res) => {
-  // 1. look up customer with certain id from array
+  // 1. new: look up customer with certain id from array
   const customer = await Customer.findById(req.params.id);
 
   // 2. return 404 error if it doesn't exist
@@ -57,7 +26,7 @@ router.get("/:id", async (req, res) => {
 
 router.post("/", async (req, res) => {
   // 1. validate request
-  const result = customerValidatorSchema.validate(req.body);
+  const result = Validator.validate(req.body);
 
   // 2. if request is invalid, return 400 error
   if (result.error) {
@@ -79,7 +48,7 @@ router.post("/", async (req, res) => {
 
 router.put("/:id", async (req, res) => {
   // 1. validate request
-  const { error } = customerValidatorSchema.validate(req.body);
+  const { error } = Validator.validate(req.body);
   // 2. if request is invalid, return 400 error
   if (error) {
     res.status(400).send(error.details[0].message);
