@@ -26,16 +26,13 @@ router.get("/:id", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  // 1. validate request
+  // 1. validate request object, if request object is invalid, return 400 error
   const result = Validator.validate(req.body);
-
-  // 2. if request is invalid, return 400 error
   if (result.error) {
-    res.status(400).send(result.error.details[0].message);
-    return;
+    return res.status(400).send(result.error.details[0].message);
   }
 
-  // 3. update genres
+  // 2. update genres | new: create a document
   // const genre = {
   //   id: genres.length + 1,
   //   name: req.body.name,
@@ -48,12 +45,10 @@ router.post("/", async (req, res) => {
 });
 
 router.put("/:id", async (req, res) => {
-  // 3. validate request
+  // 3. validate request object, if request object is invalid, return 400 error
   const { error } = Validator.validate(req.body);
-  // if request is invalid, return 400 error
   if (error) {
-    res.status(400).send(error.details[0].message);
-    return;
+    return res.status(400).send(error.details[0].message);
   }
 
   const genre = await Genre.findByIdAndUpdate(

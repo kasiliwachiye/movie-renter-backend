@@ -19,26 +19,26 @@ const movieSchema = new mongoose.Schema({
     type: Number,
     required: true,
     min: 0,
-    max: 999,
+    max: 99,
   },
   dailyRentalRate: {
     type: Number,
     required: true,
     min: 0,
-    max: 999,
+    max: 10,
   },
 });
 
-// 3. create movie model
+// 3. create movie model and collection
 const Movie = mongoose.model("Movies", movieSchema);
 
-// joi validator schema
-const movieValidatorSchema = Joi.object({
+// joi validation schema => to validate client input 
+const movieValidationSchema = Joi.object({
   title: Joi.string().min(1).max(255).required(),
   genreId: Joi.string().required(),
-  numberInStock: Joi.number().min(1).required(),
-  dailyRentalRate: Joi.number().min(1).required(),
+  numberInStock: Joi.number().min(0).required(),
+  dailyRentalRate: Joi.number().min(0).required(),
 });
 
 exports.Movie = Movie;
-exports.Validator = movieValidatorSchema;
+exports.Validator = movieValidationSchema;

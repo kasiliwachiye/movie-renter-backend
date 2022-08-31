@@ -11,14 +11,14 @@ const genreSchema = new mongoose.Schema({
   },
 });
 
-// 3. create genre model
+// 3. create genre model and collection
 const Genre = mongoose.model("Genre", genreSchema);
 
-// joi validator schema
-const genreValidatorSchema = Joi.object({
+// joi validation schema => to validate client input
+const genreValidationSchema = Joi.object({
   name: Joi.string().min(3).required(),
 });
 
 module.exports.Genre = Genre;
-module.exports.Validator = genreValidatorSchema;
+module.exports.Validator = genreValidationSchema;
 module.exports.genreSchema = genreSchema;

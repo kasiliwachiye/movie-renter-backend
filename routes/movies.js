@@ -1,6 +1,5 @@
 const { Movie, Validator } = require("../models/movie");
 const { Genre } = require("../models/genre");
-const mongoose = require("mongoose");
 const express = require("express");
 const router = express.Router();
 
@@ -28,14 +27,14 @@ router.post("/", async (req, res) => {
   // 1. validate request object, if request object is invalid, return 400 error
   const result = Validator.validate(req.body);
   if (result.error) {
-    res.status(400).send(result.error.details[0].message);
-    return;
+    return res.status(400).send(result.error.details[0].message);
   }
 
   // 2. find genre by ID, send error message if invalid
   const genre = await Genre.findById(req.body.genreId);
   if (!genre) return res.status(400).send("Invalid genre");
 
+  // 3. create a new movie (document)
   let movie = new Movie({
     title: req.body.title,
     genre: {
@@ -45,9 +44,11 @@ router.post("/", async (req, res) => {
     numberInStock: req.body.numberInStock,
     dailyRentalRate: req.body.dailyRentalRate,
   });
+
+  // 4. save the added movie document
   movie = await movie.save();
 
-  // 4. send back added movie
+  // 5. send back added movie
   res.send(movie);
 });
 

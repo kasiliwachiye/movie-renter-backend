@@ -25,7 +25,7 @@ router.get("/:id", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  // 1. validate request
+  // 1. validate request object
   const result = Validator.validate(req.body);
 
   // 2. if request is invalid, return 400 error
@@ -34,28 +34,29 @@ router.post("/", async (req, res) => {
     return;
   }
 
-  // 3. update customers
+  // 3. create a new customer(document)
   let customer = new Customer({
     name: req.body.name,
     isGold: req.body.isGold,
     phone: req.body.phone,
   });
+
+  // 4. save the customer(document)
   customer = await customer.save();
 
-  // 4. send back added customer
+  // 5. send back added customer
   res.send(customer);
 });
 
 router.put("/:id", async (req, res) => {
-  // 1. validate request
+  // 1. validate request object, if request object is invalid, return 400 error
   const { error } = Validator.validate(req.body);
-  // 2. if request is invalid, return 400 error
   if (error) {
     res.status(400).send(error.details[0].message);
     return;
   }
 
-  // 3. find customer by ID and update
+  // 2. find customer by ID and update
   const customer = await Customer.findByIdAndUpdate(
     req.params.id,
     { name: req.body.name, isGold: req.body.isGold, phone: req.body.phone },
