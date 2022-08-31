@@ -21,3 +21,4 @@ const genreValidatorSchema = Joi.object({
 
 module.exports.Genre = Genre;
 module.exports.Validator = genreValidatorSchema;
+module.exports.genreSchema = genreSchema;
