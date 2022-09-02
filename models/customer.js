@@ -7,7 +7,7 @@ const customerSchema = new mongoose.Schema({
     type: String,
     required: true,
     minlength: 3,
-    maxlength: 30,
+    maxlength: 50,
   },
   isGold: {
     type: Boolean,
