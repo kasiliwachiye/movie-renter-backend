@@ -35,7 +35,7 @@ router.post("/", async (req, res) => {
   if (!genre) return res.status(400).send("Invalid genre");
 
   // 3. create a new movie (document)
-  let movie = new Movie({
+  const movie = new Movie({
     title: req.body.title,
     genre: {
       _id: genre._id,
@@ -46,7 +46,7 @@ router.post("/", async (req, res) => {
   });
 
   // 4. save the added movie document
-  movie = await movie.save();
+  await movie.save();
 
   // 5. send back added movie
   res.send(movie);

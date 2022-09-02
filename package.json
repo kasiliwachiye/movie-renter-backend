@@ -16,6 +16,7 @@
     "fawn": "^2.1.5",
     "helmet": "^5.1.1",
     "joi": "^17.6.0",
+    "joi-objectid": "^4.0.2",
     "mongodb": "^4.9.0",
     "mongoose": "^6.5.3"
   }

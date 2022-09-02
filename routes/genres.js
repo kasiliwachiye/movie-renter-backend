@@ -37,8 +37,8 @@ router.post("/", async (req, res) => {
   //   id: genres.length + 1,
   //   name: req.body.name,
   // };
-  let genre = new Genre({ name: req.body.name });
-  genre = await genre.save();
+  const genre = new Genre({ name: req.body.name });
+  await genre.save();
 
   // 4. send back added genre
   res.send(genre);

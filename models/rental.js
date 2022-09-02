@@ -57,8 +57,8 @@ const rentalSchema = new mongoose.Schema({
 const Rental = mongoose.model("Rental", rentalSchema);
 
 const rentalValidationSchema = Joi.object({
-  customerId: Joi.string().required(),
-  movieId: Joi.string().required()
+  customerId: Joi.objectId().required(),
+  movieId: Joi.objectId().required()
 });
 
 exports.Rental = Rental;
