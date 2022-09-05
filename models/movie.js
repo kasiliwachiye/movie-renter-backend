@@ -11,10 +11,7 @@ const movieSchema = new mongoose.Schema({
     minlength: 1,
     maxlength: 255,
   },
-  genre: {
-    type: genreSchema,
-    required: true,
-  },
+  genre: genreSchema,
   numberInStock: {
     type: Number,
     required: true,
