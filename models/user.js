@@ -17,7 +17,6 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     min: 6,
-    // max number is factoring in hashing, hence why so high
     max: 1024
   },
 });
