@@ -2,6 +2,7 @@ const Joi = require("joi");
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 const config = require("config");
+const { boolean } = require("joi");
 
 // define schema
 const userSchema = new mongoose.Schema({
@@ -24,10 +25,17 @@ const userSchema = new mongoose.Schema({
     maxlength: 1024,
     required: true,
   },
+  isAdmin: {
+    type: Boolean,
+    default: false
+  },
 });
 
 userSchema.methods.generateAuthToken = function () {
-  const token = jwt.sign({ _id: this._id }, config.get("jwtPrivateKey"));
+  const token = jwt.sign(
+    { _id: this._id, isAdmin: this.isAdmin },
+    config.get("jwtPrivateKey")
+  );
   return token;
 };
 
