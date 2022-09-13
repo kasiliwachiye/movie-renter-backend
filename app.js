@@ -4,7 +4,8 @@ const config = require("config");
 const Joi = require("joi");
 Joi.objectId = require("joi-objectid")(Joi);
 const mongoose = require("mongoose");
-
+const { createLogger, transports, format, add } = require("winston");
+require("winston-mongodb");
 const error = require("./middleware/error");
 
 const express = require("express");
@@ -16,6 +17,24 @@ const movies = require("./routes/movies");
 const rentals = require("./routes/rentals");
 const users = require("./routes/users");
 const auth = require("./routes/auth");
+
+const logger = createLogger({
+  level: "error",
+  format: format.json(),
+  defaultMeta: { service: "user-service" },
+  transports: [
+    new transports.Console(),
+    new transports.File({ filename: "combined.log" }),
+  ],
+  exceptionHandlers: [new transports.File({ filename: "exceptions.log" })],
+  rejectionHandlers: [new transports.File({ filename: "rejections.log" })],
+});
+
+add(new transports.MongoDB({db: 'mongodb://localhost/movie_renter'}));
+
+logger.exceptions.handle(new transports.File({ filename: "exceptions.log" }));
+
+logger.rejections.handle(new transports.File({ filename: "rejections.log" }));
 
 if (!config.get("jwtPrivateKey")) {
   console.log(`FATAL ERROR: jwtPrivateKey is not defined`);
