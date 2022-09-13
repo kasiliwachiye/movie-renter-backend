@@ -29,11 +29,7 @@ app.use("/api/users", users);
 app.use(error);
 
 require("./startup/logging")();
-
-if (!config.get("jwtPrivateKey")) {
-  console.log(`FATAL ERROR: jwtPrivateKey is not defined`);
-  process.exit(1);
-}
+require("./startup/config")();
 
 // 1. connect to mongodb
 mongoose
