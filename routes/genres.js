@@ -36,7 +36,7 @@ router.get(
 
 router.post(
   "/",
-  [auth, admin],
+  auth,
   asyncMiddleware(async (req, res) => {
     // 1. validate request object, if request object is invalid, return 400 error
     const result = Validator.validate(req.body);
@@ -59,7 +59,7 @@ router.post(
 
 router.put(
   "/:id",
-  [auth, admin],
+  [auth],
   asyncMiddleware(async (req, res) => {
     // 3. validate request object, if request object is invalid, return 400 error
     const { error } = Validator.validate(req.body);

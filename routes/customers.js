@@ -7,6 +7,7 @@ const router = express.Router();
 
 router.get(
   "/",
+  auth,
   asyncMiddleware(async (req, res) => {
     // new: find ALL customers
     const customers = await Customer.find().sort("name");
@@ -17,6 +18,7 @@ router.get(
 
 router.get(
   "/:id",
+  auth,
   asyncMiddleware(async (req, res) => {
     // 1. new: look up customer with certain id from array
     const customer = await Customer.findById(req.params.id);
@@ -93,7 +95,7 @@ router.put(
 
 router.delete(
   "/:id",
-  [admin, auth],
+  auth,
   asyncMiddleware(async (req, res) => {
     // 1. look up customer by id and delete item
     const customer = await Customer.findByIdAndRemove(req.params.id);
