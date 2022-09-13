@@ -3,5 +3,5 @@ const mongoose = require('mongoose');
 
 module.exports = function() {
   mongoose.connect("mongodb://localhost/movie_renter")
-    .then(() => winston.info(`Connected to MongoDB...`));
+    .then(() => console.log(`Connected to MongoDB...`));
 }

@@ -1,12 +1,11 @@
 const bodyParser = require("body-parser");
-const config = require("config");
 const Joi = require("joi");
 Joi.objectId = require("joi-objectid")(Joi);
-const mongoose = require("mongoose");
-const error = require("./middleware/error");
 
 const express = require("express");
 const app = express();
+
+const error = require("./middleware/error");
 
 const customers = require("./routes/customers");
 const genres = require("./routes/genres");
@@ -30,13 +29,7 @@ app.use(error);
 
 require("./startup/logging")();
 require("./startup/config")();
-
-// 1. connect to mongodb
-mongoose
-  .connect("mongodb://localhost/movie_renter")
-  .then(() => console.log(`Connected to MongoDB`))
-  .catch((err) => console.error(err));
-
+require("./startup/db")();
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`App is running on port ${port}`));
