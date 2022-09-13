@@ -4,6 +4,8 @@ const Joi = require("joi");
 Joi.objectId = require("joi-objectid")(Joi);
 const mongoose = require("mongoose");
 
+const error = require('./middleware/error');
+
 const express = require("express");
 const app = express();
 
@@ -36,9 +38,7 @@ app.use("/api/movies", movies);
 app.use("/api/rentals", rentals);
 app.use("/api/users", users);
 
-app.use((err, req, res, next) => {
-  res.status(500).send("Something went wrong");
-})
+app.use(error)
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`App is running on port ${port}`));
