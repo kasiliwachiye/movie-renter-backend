@@ -4,11 +4,15 @@ const admin = require("../middleware/admin");
 const express = require("express");
 const router = express.Router();
 
-router.get("/", async (req, res) => {
-  // new: find ALL genres
-  const genres = await Genre.find().sort("name");
-  // return genres to client
-  res.send(genres);
+router.get("/", async (req, res, next) => {
+  try {
+    // new: find ALL genres
+    const genres = await Genre.find().sort("name");
+    // return genres to client
+    res.send(genres);
+  } catch (error) {
+    next(error)
+  }
 });
 
 router.get("/:id", async (req, res) => {

@@ -36,5 +36,9 @@ app.use("/api/movies", movies);
 app.use("/api/rentals", rentals);
 app.use("/api/users", users);
 
+app.use((err, req, res, next) => {
+  res.status(500).send("Something went wrong");
+})
+
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`App is running on port ${port}`));
