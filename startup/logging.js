@@ -8,7 +8,7 @@ module.exports = function () {
     format: format.json(),
     defaultMeta: { service: "user-service" },
     transports: [
-      new transports.Console({colorize: true, prettyPrint: true}),
+      new transports.Console({ colorize: true, prettyPrint: true }),
       new transports.File({ filename: "combined.log" }),
     ],
     exceptionHandlers: [new transports.File({ filename: "exceptions.log" })],
