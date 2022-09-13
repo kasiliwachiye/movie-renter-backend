@@ -9,7 +9,8 @@ require("winston-mongodb");
 const express = require("express");
 const app = express();
 
-require('./startup/routes')();
+require('./startup/routes')(app);
+require("./startup/db")();
 
 const logger = createLogger({
   level: "error",
@@ -34,11 +35,6 @@ if (!config.get("jwtPrivateKey")) {
   process.exit(1);
 }
 
-// 1. connect to mongodb
-mongoose
-  .connect("mongodb://localhost/movie_renter")
-  .then(() => console.log(`Connected to MongoDB`))
-  .catch((err) => console.error(err));
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`App is running on port ${port}`));
