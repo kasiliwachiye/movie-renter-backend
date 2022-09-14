@@ -5,6 +5,11 @@ Joi.objectId = require("joi-objectid")(Joi);
 const express = require("express");
 const app = express();
 
+require("./startup/logging")();
+require("./startup/config")();
+require("./startup/db")();
+require("./startup/prod")(app);
+
 const error = require("./middleware/error");
 
 const customers = require("./routes/customers");
@@ -26,10 +31,6 @@ app.use("/api/rentals", rentals);
 app.use("/api/users", users);
 
 app.use(error);
-
-require("./startup/logging")();
-require("./startup/config")();
-require("./startup/db")();
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`App is running on port ${port}`));
