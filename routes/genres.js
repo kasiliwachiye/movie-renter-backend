@@ -5,6 +5,7 @@ const express = require("express");
 const router = express.Router();
 
 router.get("/", async (req, res, next) => {
+  // Genre.find().sort("name").then(genres => res.send(genres)).catch(err => console.err(err)) - works if async-await is not used
   // new: find ALL genres
   const genres = await Genre.find().sort("name");
   // return genres to client
@@ -39,6 +40,11 @@ router.post("/", auth, async (req, res) => {
   //   id: genres.length + 1,
   //   name: req.body.name,
   // };
+
+  // Genre.create({ name: req.body.name })
+  //   .then((genre) => res.send(genre))
+  //   .catch((err) => res.send(err));
+
   const genre = new Genre({ name: req.body.name });
   await genre.save();
 
